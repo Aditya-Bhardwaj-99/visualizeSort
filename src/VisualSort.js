@@ -9,7 +9,7 @@ const style = (theme) => ({
         background: 'rgba(255, 255, 255, 0.4)',
         '-webkit-box-shadow': '5px 5px 15px rgba(0,0,0,0.5)',
         width: '98%',
-        height: '180px',
+        height: '250px',
         marginLeft: '1%',
         marginTop: '1%',
         color:'white'
@@ -31,14 +31,20 @@ class VisualSort extends Component {
         this.state = {
             array:[],
             method:'',
-            set:0
+            set:0,
+            selectionTime:'',
+            swapTime:'',
+            waitTime:''
         }
     }
 
     onSubmitClick=()=>{
         let temp=document.getElementById('form').elements.array.value.split(',').map(x=>parseInt(x));
         let temp2=document.getElementById('form').elements.method.value;
-        this.setState({array:temp,method:temp2,set:1});
+        let temp3=document.getElementById('form').elements.selectiontime.value;
+        let temp4=document.getElementById('form').elements.swaptime.value;
+        let temp5=document.getElementById('form').elements.waittime.value;
+        this.setState({array:temp,method:temp2,set:1,selectionTime:temp3,swapTime:temp4,waitTime:temp5});
     }
 
     refresh=()=>{
@@ -53,7 +59,7 @@ class VisualSort extends Component {
                     <Controls onSubmit={this.onSubmitClick} />
                 </Card>
                 <Card className='SortArea' classes={{root:classes.sortarea}}>
-                    {this.state.set?<SortArea array={this.state.array} method={this.state.method} myRefresh={this.refresh}/>:null}
+                    {this.state.set?<SortArea array={this.state.array} method={this.state.method} selectionTime={this.state.selectionTime} swapTime={this.state.swapTime} waitTime={this.state.waitTime} myRefresh={this.refresh}/>:null}
                 </Card>
             </div>
         )
