@@ -149,23 +149,23 @@ class SortArea extends Component {
         }
         this.setState({ array: items });
     };
-    
 
-    merge = async(arr, l, m, r,temp) => {
-        console.log(arr+'\n'+l+'\n'+m+'\n'+r);
-        
+
+    merge = async (arr, l, m, r, temp) => {
+        console.log(arr + '\n' + l + '\n' + m + '\n' + r);
+
     }
 
-    mergesort = async(arr,l,r,temp) => {
-        if(l<r){
-            var mid=parseInt(l+(r-l)/2);
+    mergesort = async (arr, l, r, temp) => {
+        if (l < r) {
+            var mid = parseInt(l + (r - l) / 2);
             console.log(mid);
-            if(document.getElementById(mid+'bar'))document.getElementById(mid+'bar').style.marginRight='5px';
-            this.mergesort(arr,l,mid,temp);
-            this.mergesort(arr,mid+1,r,temp);
+            if (document.getElementById(mid + 'bar')) document.getElementById(mid + 'bar').style.marginRight = '5px';
+            this.mergesort(arr, l, mid, temp);
+            this.mergesort(arr, mid + 1, r, temp);
             await this.waithere(this.props.selectionTime);
-            for(var i=l;i<=r;i++){
-                for(var j=0;j<=r-i-1;j++){
+            for (var i = l; i <= r; i++) {
+                for (var j = 0; j <= r - i - 1; j++) {
                     if (arr[j] > arr[j + 1]) {
                         let x = arr[j];
                         arr[j] = arr[j + 1];
@@ -174,24 +174,71 @@ class SortArea extends Component {
                 }
                 await this.waithere(this.props.waitTime);
             }
-            console.log(l+' '+r);
-            this.setState({array:arr});
+            console.log(l + ' ' + r);
+            this.setState({ array: arr });
             await this.waithere(this.props.swapTime);
-            document.getElementById(mid+'bar').style.marginRight='0px';
+            document.getElementById(mid + 'bar').style.marginRight = '0px';
             await this.waithere(this.props.waitTime);
+        }
+    }
+
+    insertionsort = async (arr) => {
+        var i, key, j;
+        for (i = 1; i < arr.length; i++) {
+            key = arr[i];
+            j = i - 1;
+            while (j >= 0 && arr[j] > key) {
+                document.getElementById(j + 'bar').childNodes[0].style.background = 'red';
+                await this.waithere(this.props.selectionTime);
+                arr[j + 1] = arr[j];
+                j = j - 1;
+                document.getElementById((j + 1) + 'bar').childNodes[0].style.background = '#0099ff'
+                this.setState({ array: arr });
+                await this.waithere(this.props.swapTime)
+            }
+            arr[j + 1] = key;
+            document.getElementById((j + 1) + 'bar').childNodes[0].style.background = 'red';
+            this.setState({ array: arr });
+            await this.waithere(this.props.waitTime)
+            document.getElementById((j + 1) + 'bar').childNodes[0].style.background = '#0099ff'
+        }
+    }
+
+    selectionsort = async(arr) => {
+        var i, j, min_idx;
+        for (i = 0; i < arr.length - 1; i++) {
+            min_idx = i;
+            for (j = i + 1; j < arr.length; j++){
+                document.getElementById(j+'bar').childNodes[0].style.background='red'
+                await this.waithere(this.props.selectionTime);
+                if (arr[j] < arr[min_idx]){
+                    min_idx = j;
+                }
+                document.getElementById(j + 'bar').childNodes[0].style.background = '#0099ff'
+            }
+            document.getElementById(min_idx + 'bar').childNodes[0].style.background = 'green';
+            await this.waithere(this.props.selectionTime);
+            this.swap(arr, min_idx, i);
+            this.setState({ array: arr });
+            await this.waithere(this.props.waitTime)
+            document.getElementById(min_idx + 'bar').childNodes[0].style.background = '#0099ff'
         }
     }
 
     startsort = async () => {
         switch (this.props.method) {
             case "merge":
-                this.mergesort(this.state.array, 0, (this.state.array.length - 1),this.state.array);
+                this.mergesort(this.state.array, 0, (this.state.array.length - 1), this.state.array);
                 break;
             case "quick":
                 await this.quicksort(this.state.array, 0, this.state.array.length - 1);
                 break;
             case "bubble":
                 this.bubblersort();
+                break;
+            case "insertion": this.insertionsort(this.state.array);
+                break;
+            case 'selection': this.selectionsort(this.state.array);
                 break;
             default:
                 alert("no sort was given");
@@ -206,7 +253,7 @@ class SortArea extends Component {
                 <div
                     style={{
                         display: "flex",
-                        marginLeft: "1%",
+                        marginLeft: '5px',
                         marginTop: "1%",
                         marginBottom: "1%",
                     }}
@@ -218,7 +265,7 @@ class SortArea extends Component {
                                     width: "1px",
                                     height: val + "px",
                                     background: "#0099ff",
-                                    marginLeft: "1px",
+                                    marginLeft: "0px",
                                 }}
                             ></div>
                         </div>

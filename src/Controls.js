@@ -59,6 +59,8 @@ class Controls extends Component {
                                 <MenuItem value='quick'>Quick Sort</MenuItem>
                                 <MenuItem value='merge'>Merge Sort</MenuItem>
                                 <MenuItem value='bubble'>Bubble Sort</MenuItem>
+                                <MenuItem value='insertion'>Insertion Sort</MenuItem>
+                                <MenuItem value='selection'>Seletion Sort</MenuItem>
                             </Select><Button style={{ marginLeft: '5%' }} variant="contained" edge='end' onClick={this.props.onSubmit}>Set Sort</Button><br/>
                             <TextField InputProps={{ className: classes.input }} classes={{ root: classes.root }} placeholder='Time to wait after selection' className='array' name='selectiontime'></TextField><br/>
                             <TextField InputProps={{ className: classes.input }} classes={{ root: classes.root }} placeholder='Time to wait after swapping' className='array' name='swaptime'></TextField><br/>
